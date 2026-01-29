@@ -1,0 +1,42 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { db } from "@/lib/core/db";
+import { TeamSettingsContent } from "@modules/team-ui/src/components/team-settings";
+
+import { PageGuard } from "@/lib/ui/page-guard";
+
+const { teamId } = Astro.params;
+
+const guard = await PageGuard.protect(Astro, "team-admin", { teamId });
+if (guard) return guard;
+
+const navData = Astro.locals.navData;
+const user = navData?.context?.user;
+
+const team = await db.team.findUnique({
+    where: { id: teamId },
+    include: {
+        members: { include: { user: true } },
+        invitations: true,
+    },
+});
+
+if (!team) {
+    return new Response(null, {
+        status: 404,
+        statusText: "Not Found",
+    });
+}
+---
+
+<Layout title={`${team.name} - Settings`} navData={navData}>
+    <div class="container max-w-4xl py-10" data-testid="team-settings-page">
+        <h1 class="text-3xl font-bold tracking-tight mb-8">Team Settings</h1>
+        <TeamSettingsContent
+            client:load
+            team={team}
+            currentUserEmail={user.email || ""}
+            className="border rounded-lg p-6 bg-card text-card-foreground shadow-sm"
+        />
+    </div>
+</Layout>

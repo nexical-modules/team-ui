@@ -1,0 +1,14 @@
+{
+    "name": "@module/team",
+    "version": "0.1.0",
+    "type": "module",
+    "private": true,
+    "exports": {
+        "./*": "./src/*"
+    },
+    "dependencies": {
+        "@prisma/client": "7.3.0",
+        "auth-astro": "^4.2.0",
+        "zod": "^4.3.0"
+    }
+}

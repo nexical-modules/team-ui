@@ -1,0 +1,189 @@
+{
+    "team": {
+        "invite": {
+            "page": {
+                "title": "Team Invitation",
+                "subtitle": "You've been invited to join a team.",
+                "not_found_subtitle": "Invitation not found",
+                "error": "Error",
+                "invalid_link_message": "This invitation link is invalid or has been deleted.",
+                "expired": "Expired",
+                "expired_message": "This invitation has expired.",
+                "mismatch": "Account Mismatch",
+                "mismatch_message": "This invite is for <strong>{{inviteEmail}}</strong>, but you are logged in as <strong>{{userEmail}}</strong>. Please sign out and log in with the correct account.",
+                "sign_out": "Sign Out",
+                "invited_by": "Invited by {{name}}",
+                "role": "Role: {{role}}",
+                "accept_button": "Accept & Join Team",
+                "joining_button": "Joining...",
+                "return_home": "Return Home",
+                "success": "Success",
+                "failed": "Failed to join team."
+            },
+            "email": {
+                "subject": "You have been invited to join {{teamName}}",
+                "preview": "Join {{teamName}} on {{siteName}}",
+                "greeting": "Hello,",
+                "body": "<strong>{{inviterName}}</strong> has invited you to join the <strong>{{teamName}}</strong> team as a <strong>{{role}}</strong>.",
+                "button": "Accept Invitation",
+                "or_copy": "or copy and paste this URL into your browser:",
+                "copyright": "© {{year}} {{siteName}}. All rights reserved."
+            },
+            "email_added": {
+                "subject": "You've been added to {{teamName}} on {{siteName}}"
+            }
+        },
+        "create": {
+            "dialog": {
+                "title": "Create Team",
+                "description": "Create a new team to collaborate with others.",
+                "name_label": "Team Name",
+                "name_placeholder": "Acme Corp",
+                "submit_button": "Create Team",
+                "submitting": "Creating..."
+            },
+            "error": {
+                "failed": "Failed to create team"
+            }
+        },
+        "switcher": {
+            "label": "Teams"
+        },
+        "action": {
+            "error": {
+                "create_failed": "Failed to create team",
+                "invite_accept_failed": "Failed to accept invitation",
+                "unauthorized": "Unauthorized access",
+                "user_not_found": "User not found",
+                "team_not_found": "Team not found",
+                "invitation_not_found": "Invitation not found",
+                "already_member": "User is already a member of this team.",
+                "invite_exists": "Invitation already sent to this email.",
+                "invite_failed": "Failed to invite user.",
+                "login_required": "You must be logged in to accept an invitation.",
+                "invalid_token": "Invalid invitation token.",
+                "expired": "Invitation has expired.",
+                "mismatch": "This invitation is for {{inviteEmail}}, but you are logged in as {{userEmail}}.",
+                "cannot_demote_owner": "Cannot demote the only owner.",
+                "cannot_remove_owner": "Cannot remove the only owner.",
+                "not_member": "Not a member",
+                "max_limit": "You have reached the maximum limit of 10 teams."
+            }
+        },
+        "settings": {
+            "title": "Team Settings",
+            "description": "Manage team members, roles, and settings.",
+            "general": {
+                "title": "General",
+                "name_label": "Team Name",
+                "save": "Save",
+                "admin_only": "Only admins can edit team details.",
+                "success": "Team updated successfully",
+                "error": "Failed to update team name"
+            },
+            "members": {
+                "title": "Members",
+                "invite_button": "Invite",
+                "unknown_user": "Unknown",
+                "actions": {
+                    "label": "Actions",
+                    "promote": "Promote to Admin",
+                    "demote": "Demote to Member",
+                    "remove": "Remove from Team",
+                    "leave": "Leave Team"
+                },
+                "confirm": {
+                    "remove": "Are you sure you want to remove this member?"
+                },
+                "error": {
+                    "update_role": "Failed to update role",
+                    "remove_member": "Failed to remove member"
+                }
+            },
+            "invitations": {
+                "title": "Pending Invitations",
+                "expired": "Expired",
+                "revoke_confirm": "Are you sure you want to revoke this invitation?",
+                "resend_success": "Invitation resent successfully!",
+                "resend_error": "Failed to resend invitation",
+                "revoke_error": "Failed to revoke invitation",
+                "resend_button": "Resend Invitation",
+                "revoke_button": "Revoke Invitation"
+            },
+            "danger": {
+                "title": "Danger Zone",
+                "delete_title": "Delete Team",
+                "delete_desc": "Permanently remove this team and all of its data.",
+                "delete_button": "Delete Team",
+                "success": "Team deleted successfully",
+                "error": "Failed to delete team"
+            },
+            "keys": {
+                "meta_title": "Service Keys",
+                "title": "Service Keys",
+                "subtitle": "Manage API keys for external services and bots.",
+                "create_button": "Create Key",
+                "create_dialog": {
+                    "title": "Create Service Key",
+                    "description": "Create a key for automated services (CI/CD, Bots). You will only see it once."
+                },
+                "name_label": "Key Name",
+                "warning_copy": "Make sure to copy your service key now. You won't be able to see it again!",
+                "your_key": "Your Service Key",
+                "revoke_confirm": "Are you sure you want to revoke this service key?",
+                "revoked_success": "Key revoked",
+                "table": {
+                    "name": "Name",
+                    "last_used": "Last Used",
+                    "created": "Created"
+                },
+                "empty": "No active service keys found.",
+                "never": "Never"
+            }
+        },
+        "invite_dialog": {
+            "trigger_button": "Invite Member",
+            "title": "Invite Member",
+            "description": "Create an invitation link to add a new member.",
+            "success": {
+                "title": "Invitation Sent!",
+                "text": "An email has been sent to <span class=\"highlight\">{{email}}</span> with instructions to join the team.",
+                "another_button": "Invite Another"
+            },
+            "form": {
+                "team_label": "Team",
+                "team_placeholder": "Select team",
+                "email_label": "Email Address",
+                "email_placeholder": "colleague@example.com",
+                "role_label": "Team Role",
+                "role_placeholder": "Select role",
+                "site_role_label": "Site Role",
+                "site_role_placeholder": "Select site role",
+                "submit_button": "Generate Invite Link",
+                "submitting": "Creating..."
+            },
+            "error": "Failed to create invitation"
+        },
+        "confirm_deletion": {
+            "title": "Delete {{type}}?",
+            "description": "This action cannot be undone. This will permanently delete the <span class=\"highlight\">{{name}}</span> {{type}} and remove all associated data.",
+            "warning": {
+                "title": "Warning",
+                "message": "If you delete this {{type}}, you will lose all work associated with it forever."
+            },
+            "instruction": "Type <span class=\"code\">{{name}}</span> to confirm.",
+            "cancel": "Cancel",
+            "submit": "Delete {{type}}",
+            "types": {
+                "team": "team"
+            }
+        },
+        "roles": {
+            "MEMBER": "Member",
+            "ADMIN": "Team Admin",
+            "OWNER": "Owner",
+            "EMPLOYEE": "Employee",
+            "CONTRACTOR": "Contractor"
+        }
+    }
+}

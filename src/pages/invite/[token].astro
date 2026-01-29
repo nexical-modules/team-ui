@@ -1,0 +1,239 @@
+---
+import Layout from "@/layouts/Layout.astro";
+
+import { db } from "@/lib/core/db";
+import { getServerTranslation } from "@/lib/core/i18n";
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+    CardDescription,
+    CardFooter,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { AlertCircle } from "lucide-react";
+
+// Needed for reactivity in script possibly, or just server side content
+// This page is hybrid or server? .astro is server by default unless 'output: server' set in config.
+// Assuming server rendered.
+
+import { PageGuard } from "@/lib/ui/page-guard";
+
+const t = await getServerTranslation(Astro.request);
+
+const guard = await PageGuard.protect(Astro, "member");
+if (guard) return guard;
+
+// Use session from locals (populated by middleware)
+const user = Astro.locals.navData?.context?.user;
+const session = user ? { user } : null;
+const { token } = Astro.params;
+
+// Fetch invitation server-side for initial render state
+// Note: db is available via alias.
+const invite = await db.invitation.findUnique({
+    where: { token },
+    include: { team: true, inviter: true },
+});
+
+const isExpired = invite && new Date() > invite.expires;
+const isInvalid = !invite;
+const emailMismatch =
+    invite && session?.user?.email && invite.email !== session?.user?.email;
+
+// If we wanted to auto-trigger accept on load, we could, but a button is safer/better UX.
+---
+
+<Layout title={t("team.invite.page.title")}>
+    <div class="team-invite-page-container" data-testid="invite-page">
+        {/* Gradient Orbs */}
+        <div class="team-orb team-orb-primary"></div>
+        <div class="team-orb team-orb-secondary"></div>
+
+        <Card className="team-invite-card">
+            <CardHeader className="team-invite-header">
+                <CardTitle className="team-invite-title"
+                    >{t("team.invite.page.title")}</CardTitle
+                >
+                <CardDescription className="team-invite-subtitle">
+                    {
+                        isInvalid
+                            ? t("team.invite.page.not_found_subtitle")
+                            : t("team.invite.page.subtitle")
+                    }
+                </CardDescription>
+            </CardHeader>
+            <CardContent>
+                {
+                    isInvalid ? (
+                        <div
+                            class="team-error-card"
+                            data-testid="invite-error-card"
+                        >
+                            <div class="team-error-header">
+                                <AlertCircle className="team-icon-sm" />
+                                <span>{t("team.invite.page.error")}</span>
+                            </div>
+                            <p class="team-error-text">
+                                {t("team.invite.page.invalid_link_message")}
+                            </p>
+                        </div>
+                    ) : isExpired ? (
+                        <div
+                            class="team-error-card"
+                            data-testid="invite-expired-card"
+                        >
+                            <div class="team-error-header">
+                                <AlertCircle className="team-icon-sm" />
+                                <span>{t("team.invite.page.expired")}</span>
+                            </div>
+                            <p class="team-error-text">
+                                {t("team.invite.page.expired_message")}
+                            </p>
+                        </div>
+                    ) : emailMismatch ? (
+                        <div class="team-mismatch-wrapper">
+                            <div class="team-error-card">
+                                <div class="team-error-header">
+                                    <AlertCircle className="team-icon-sm" />
+                                    <span>
+                                        {t("team.invite.page.mismatch")}
+                                    </span>
+                                </div>
+                                <p
+                                    class="team-error-text"
+                                    set:html={t(
+                                        "team.invite.page.mismatch_message",
+                                        {
+                                            inviteEmail: invite.email,
+                                            userEmail:
+                                                session?.user?.email || "",
+                                        },
+                                    )}
+                                />
+                            </div>
+                            <Button
+                                className="team-signout-btn"
+                                id="signout-btn"
+                            >
+                                {t("team.invite.page.sign_out")}
+                            </Button>
+                        </div>
+                    ) : (
+                        <div class="team-invite-details">
+                            <div class="team-invite-info">
+                                <div class="team-invite-avatar-large">
+                                    {invite.team?.name.charAt(0).toUpperCase()}
+                                </div>
+                                <h3 class="team-invite-team-name">
+                                    {invite.team?.name}
+                                </h3>
+                                <p class="team-invite-inviter">
+                                    {t("team.invite.page.invited_by", {
+                                        name:
+                                            invite.inviter?.name ||
+                                            invite.inviter?.email ||
+                                            "",
+                                    })}
+                                </p>
+                                <div class="team-invite-role-badge">
+                                    {/* @ts-ignore */}
+                                    {t("team.invite.page.role", {
+                                        role: invite.teamRole || invite.role,
+                                    })}
+                                </div>
+                            </div>
+                        </div>
+                    )
+                }
+            </CardContent>
+            <CardFooter className="team-invite-footer">
+                {
+                    !isInvalid && !isExpired && !emailMismatch && (
+                        <form id="accept-form" class="team-invite-form">
+                            <input type="hidden" name="token" value={token} />
+                            <Button
+                                className="team-invite-accept-btn"
+                                id="accept-btn"
+                                data-loading-text={t(
+                                    "team.invite.page.joining_button",
+                                )}
+                                data-text={t("team.invite.page.accept_button")}
+                                data-testid="invite-accept-btn"
+                            >
+                                {t("team.invite.page.accept_button")}
+                            </Button>
+                            <p
+                                id="error-msg"
+                                class="team-invite-error-msg"
+                                data-default-error={t(
+                                    "team.invite.page.failed",
+                                )}
+                            />
+                        </form>
+                    )
+                }
+                {
+                    (isInvalid || isExpired) && (
+                        <Button
+                            variant="ghost"
+                            className="team-return-home-btn"
+                            asChild
+                        >
+                            <a href="/">{t("team.invite.page.return_home")}</a>
+                        </Button>
+                    )
+                }
+            </CardFooter>
+        </Card>
+    </div>
+</Layout>
+
+<script>
+    import { api } from "@/lib/api/api";
+    // import { signOut } from "auth-astro/client";
+
+    const form = document.getElementById("accept-form") as HTMLFormElement;
+    const btn = document.getElementById("accept-btn") as HTMLButtonElement;
+    const signoutBtn = document.getElementById(
+        "signout-btn",
+    ) as HTMLButtonElement;
+    const errorMsg = document.getElementById("error-msg");
+
+    if (signoutBtn) {
+        // signoutBtn.addEventListener("click", () => signOut());
+        signoutBtn.addEventListener("click", () => {
+            alert("Please sign out from the main menu.");
+            window.location.href = "/";
+        });
+    }
+
+    if (form) {
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            btn.disabled = true;
+            btn.textContent = btn.dataset.loadingText || "";
+            if (errorMsg) errorMsg.classList.add("hidden");
+
+            const formData = new FormData(form);
+            const token = formData.get("token") as string;
+
+            try {
+                const data = await api.team.teamMember.acceptInvitation({
+                    token,
+                });
+                // Success - redirect to team page
+                window.location.href = `/teams/${data.data.teamId}`;
+            } catch (err: any) {
+                if (errorMsg) {
+                    errorMsg.textContent =
+                        err.message || errorMsg.dataset.defaultError || "";
+                    errorMsg.classList.remove("hidden");
+                }
+                btn.disabled = false;
+                btn.textContent = btn.dataset.text || "";
+            }
+        });
+    }
+</script>

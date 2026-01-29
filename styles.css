@@ -1,0 +1,449 @@
+@import "tailwindcss";
+@reference "../../src/styles/theme.css";
+
+/* modules/team/styles.css */
+@reference "../../src/styles/styles.css";
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+}
+
+@layer components {
+
+    /* Team Switcher */
+    .team-switcher-container {
+        @apply flex gap-sm items-center w-full;
+    }
+
+    .team-switcher-wrapper {
+        @apply flex-1;
+    }
+
+    .team-switcher-trigger {
+        @apply input-field h-10 w-full;
+    }
+
+    .team-switcher-trigger-content {
+        @apply flex items-center gap-sm;
+    }
+
+    .team-switcher-icon {
+        @apply icon-sm text-subtle;
+    }
+
+    .team-switcher-create-wrapper {
+        @apply p-container-xs mt-1 border-divider-t;
+    }
+
+    .team-switcher-create-button {
+        @apply w-full justify-start h-8 text-xs px-2;
+    }
+
+    .team-switcher-create-icon {
+        @apply mr-2 icon-xs;
+    }
+
+    .team-switcher-create-empty {
+        @apply w-full border-dashed;
+    }
+
+    .team-switcher-hidden-trigger {
+        @apply hidden;
+    }
+
+    .team-switcher-icon-sm {
+        @apply mr-2 icon-sm;
+    }
+
+    /* Team Dialogs (Create, Invite, Confirm) */
+    .team-dialog-content {
+        @apply sm:max-w-[425px] surface-panel;
+    }
+
+    .team-dialog-form {
+        @apply grid gap-md py-4;
+    }
+
+    .team-dialog-success-wrapper {
+        @apply space-y-content py-4;
+    }
+
+    .team-invite-another-btn {
+        @apply w-full;
+    }
+
+    .team-input-row-2 {
+        @apply grid grid-cols-2 gap-md;
+    }
+
+    .team-form-group {
+        @apply grid gap-sm;
+    }
+
+    .team-form-label {
+        @apply input-label;
+    }
+
+    .team-form-error {
+        @apply feedback-error-text;
+    }
+
+    .team-form-error-box {
+        @apply feedback-error-card;
+    }
+
+    .team-form-success-box {
+        @apply feedback-success-card;
+    }
+
+    .team-form-success-icon {
+        @apply icon-lg text-green-500 mx-auto mb-2;
+    }
+
+    .team-form-success-title {
+        @apply text-heading-md mb-1;
+    }
+
+    .team-form-success-text {
+        @apply text-subtle;
+    }
+
+    .team-form-footer {
+        @apply pt-4;
+        /* invite dialog uses this */
+    }
+
+    .team-create-footer {
+        /* create dialog uses default footer, no specific class needed unless we want to standardize */
+    }
+
+    .team-submit-button {
+        @apply btn-primary w-full;
+    }
+
+    .team-input {
+        @apply input-field;
+    }
+
+    /* Team Settings Sheet */
+    .team-settings-trigger {
+        @apply h-8 w-8 btn-icon;
+    }
+
+    .team-settings-sheet-content {
+        @apply w-full sm:w-[540px] overflow-y-auto p-6 surface-panel border-l;
+    }
+
+    .team-settings-wrapper {
+        @apply space-y-8;
+    }
+
+    .team-settings-section {
+        @apply space-y-4;
+    }
+
+    .team-settings-section-title {
+        @apply text-heading-md;
+    }
+
+    .team-settings-header {
+        @apply p-0;
+    }
+
+    .team-settings-section-header {
+        @apply text-heading-md flex items-center justify-between;
+    }
+
+    .team-settings-header-row {
+        @apply flex items-center justify-between;
+    }
+
+    .team-settings-header-title-wrapper {
+        @apply flex items-center gap-sm;
+    }
+
+    .team-settings-field-row {
+        @apply flex gap-sm;
+    }
+
+    .team-settings-name-input {
+        @apply bg-muted/50;
+    }
+
+    .team-settings-helper-text {
+        @apply text-subtle-xs;
+    }
+
+    .team-invitation-expired-icon {
+        @apply icon-xs mr-1;
+    }
+
+    /* Member List */
+    .team-member-list {
+        @apply space-y-content;
+    }
+
+    .team-member-item {
+        @apply flex items-center justify-between bg-card/50 surface-item;
+    }
+
+    .team-member-info {
+        @apply flex items-center gap-3;
+    }
+
+    .team-member-avatar {
+        @apply size-9;
+    }
+
+    .team-member-name {
+        @apply text-body-sm leading-none;
+    }
+
+    .team-member-email {
+        @apply text-subtle-xs;
+    }
+
+    .team-member-actions {
+        @apply flex items-center gap-sm;
+    }
+
+    .team-action-menu-trigger {
+        @apply h-8 w-8 btn-icon-sm;
+    }
+
+    .team-destructive-action {
+        @apply text-red-500 focus:text-red-500;
+    }
+
+    /* Invitations List */
+    .team-invitation-list {
+        @apply h-[150px] shape-rounded-md border-divider-base p-container-base bg-muted/20;
+    }
+
+    .team-invitation-list-wrapper {
+        @apply space-y-4;
+    }
+
+    .team-invitation-item {
+        @apply flex items-center justify-between;
+    }
+
+    .team-invitation-info {
+        @apply grid gap-0.5;
+    }
+
+    .team-invitation-email {
+        @apply text-body-sm;
+    }
+
+    .team-invitation-meta {
+        @apply flex items-center gap-sm;
+    }
+
+    .team-invitation-badge {
+        @apply text-[10px] h-5;
+    }
+
+    .team-invitation-expired {
+        @apply text-xs text-destructive flex items-center;
+    }
+
+    .team-invitation-actions {
+        @apply flex items-center gap-xs;
+    }
+
+    .team-invitation-action-btn {
+        @apply h-8 w-8 btn-icon-sm;
+    }
+
+    .team-invitation-resend {
+        @apply hover:text-primary;
+    }
+
+    .team-invitation-revoke {
+        @apply hover:text-destructive;
+    }
+
+    /* Danger Zone */
+    .team-danger-zone {
+        @apply space-y-content pt-4 border-divider-t border-destructive/20;
+    }
+
+    .team-danger-title {
+        @apply text-heading-md text-destructive;
+    }
+
+    .team-danger-card {
+        @apply feedback-error-card bg-red-500/20 dark:bg-red-950/40 border-red-500/30;
+    }
+
+    .team-settings-invite-trigger {
+        @apply h-8;
+    }
+
+    .team-danger-header {
+        @apply font-medium text-red-400;
+    }
+
+    .team-danger-description {
+        @apply text-sm text-red-500/80;
+    }
+
+    /* Invitaion Page (Public) */
+    .team-invite-page-container {
+        @apply flex min-h-screen flex-col items-center justify-center p-4 bg-background relative overflow-hidden;
+    }
+
+    .team-invite-card {
+        @apply w-full max-w-md surface-panel p-8 space-y-8 relative z-10;
+    }
+
+    .team-invite-header {
+        @apply text-center space-y-2;
+    }
+
+    .team-invite-title {
+        @apply text-heading-xl;
+    }
+
+    .team-invite-subtitle {
+        @apply text-muted-foreground;
+    }
+
+    .team-invite-details {
+        @apply flex flex-col items-center gap-md py-4;
+    }
+
+    .team-invite-avatar {
+        @apply avatar-lg;
+    }
+
+    .team-invite-info {
+        @apply text-center space-y-1;
+    }
+
+    .team-invite-team-name {
+        @apply text-heading-lg;
+    }
+
+    .team-invite-inviter {
+        @apply text-subtle;
+    }
+
+    .team-invite-actions {
+        @apply space-y-4 pt-4;
+    }
+
+    .team-invite-footer {
+        @apply flex justify-center;
+    }
+
+    .team-invite-form {
+        @apply w-full;
+    }
+
+    .team-invite-accept-btn {
+        @apply w-full btn-primary h-11;
+    }
+
+    .team-invite-decline-btn {
+        @apply w-full btn-secondary hover:bg-destructive/10 hover:text-destructive;
+    }
+
+    .team-signout-btn {
+        @apply w-full btn-danger;
+    }
+
+    .team-return-home-btn {
+        @apply btn-secondary;
+    }
+
+    .team-loader-icon {
+        @apply mr-2 icon-sm animate-spin;
+    }
+
+    .team-icon-sm {
+        @apply mr-2 icon-sm;
+    }
+
+    .team-icon-xs {
+        @apply mr-2 icon-xs;
+    }
+
+    .team-icon-default {
+        @apply icon-sm;
+    }
+
+    .team-alert-icon {
+        @apply icon-sm;
+    }
+
+    /* Confirm Dialog */
+    .team-confirm-item-name {
+        @apply text-highlight;
+    }
+
+    .team-confirm-wrapper {
+        @apply space-y-4 py-4;
+    }
+
+    .team-confirm-instruction {
+        @apply text-sm;
+    }
+
+    .team-confirm-code {
+        @apply text-code;
+    }
+
+    .team-confirm-input {
+        @apply font-mono input-field;
+    }
+
+    /* Orbs */
+    .team-orb {
+        @apply absolute w-[50%] h-[50%] rounded-full blur-[120px];
+    }
+
+    .team-orb-primary {
+        @apply orb-primary;
+    }
+
+    .team-orb-secondary {
+        @apply orb-secondary;
+    }
+
+    /* Error Cards */
+    .team-error-card {
+        @apply feedback-error-card;
+    }
+
+    .team-error-header {
+        @apply flex items-center gap-sm font-medium;
+    }
+
+    .team-error-text {
+        @apply text-sm;
+    }
+
+    .team-mismatch-wrapper {
+        @apply flex flex-col gap-md;
+    }
+
+    .team-invite-role-badge {
+        @apply px-3 py-1 bg-white/5 rounded-full text-xs font-mono mt-2 border;
+    }
+
+    .team-invite-avatar-large {
+        @apply avatar-lg bg-primary/20 flex items-center justify-center font-bold text-primary mb-2 text-2xl;
+    }
+
+    .team-invite-error-msg {
+        @apply text-red-500 text-sm mt-2 hidden text-center;
+    }
+
+    .team-highlight-text {
+        @apply text-highlight;
+    }
+}
