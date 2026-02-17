@@ -1,67 +1,55 @@
 ---
-import Layout from "@/layouts/Layout.astro";
-import { db } from "@/lib/core/db";
-import { getServerTranslation } from "@/lib/core/i18n";
-import { TeamKeyList } from "@modules/team-ui/src/components/settings/team-key-list";
-import { PageGuard } from "@/lib/ui/page-guard";
+import Layout from '@/layouts/Layout.astro';
+import { db } from '@/lib/core/db';
 
-import { ModuleI18nIntegration } from "@/lib/integrations/module-i18n-integration";
-import { config } from "@/lib/core/config";
-import { getTranslation } from "@/lib/core/i18n";
+import { TeamKeyList } from '@modules/team-ui/src/components/settings/team-key-list';
+import { PageGuard } from '@/lib/ui/page-guard';
+
+import { ModuleI18nIntegration } from '@/lib/integrations/module-i18n-integration';
+import { config } from '@/lib/core/config';
+import { getTranslation } from '@/lib/core/i18n';
 
 const { teamId } = Astro.params;
 
-const guard = await PageGuard.protect(Astro, "team-admin", { teamId });
+const guard = await PageGuard.protect(Astro, 'team-admin', { teamId });
 if (guard) return guard;
 
-const lang =
-    Astro.cookies.get("i18next")?.value ||
-    config.PUBLIC_DEFAULT_LANGUAGE ||
-    "en";
+const lang = Astro.cookies.get('i18next')?.value || config.PUBLIC_DEFAULT_LANGUAGE || 'en';
 const store = await ModuleI18nIntegration.getMergedLocale(lang);
 const availableLanguages = await ModuleI18nIntegration.getAvailableLanguages();
 const i18nData = { language: lang, store, availableLanguages };
 const t = await getTranslation(lang);
-const user = Astro.locals.navData?.context?.user;
 
 const keys = await db.teamApiKey.findMany({
-    where: { teamId },
-    orderBy: { createdAt: "desc" },
-    select: {
-        id: true,
-        name: true,
-        prefix: true,
-        createdAt: true,
-        lastUsedAt: true,
-    },
+  where: { teamId },
+  orderBy: { createdAt: 'desc' },
+  select: {
+    id: true,
+    name: true,
+    prefix: true,
+    createdAt: true,
+    lastUsedAt: true,
+  },
 });
 
 const team = await db.team.findUnique({
-    where: { id: teamId },
-    select: { name: true },
+  where: { id: teamId },
+  select: { name: true },
 });
 ---
 
-<Layout
-    title={`${team?.name || "Team"} - ${t("team.settings.keys.meta_title")}`}
->
-    <div class="container mx-auto py-10 max-w-4xl px-4 md:px-0">
-        <div class="mb-8 border-b pb-4">
-            <h1 class="text-3xl font-bold tracking-tight text-foreground">
-                {team?.name}
-                <span class="text-muted-foreground">/</span>
-                {t("team.settings.title")}
-            </h1>
-        </div>
-
-        {/* Placeholder for Team Settings Navigation */}
-
-        <TeamKeyList
-            client:load
-            teamId={teamId}
-            keys={keys}
-            i18nData={i18nData}
-            canManage={true}
-        />
+<Layout title={`${team?.name || 'Team'} - ${t('team.settings.keys.meta_title')}`}>
+  <div class="container mx-auto py-10 max-w-4xl px-4 md:px-0">
+    <div class="mb-8 border-b pb-4">
+      <h1 class="text-3xl font-bold tracking-tight text-foreground">
+        {team?.name}
+        <span class="text-muted-foreground">/</span>
+        {t('team.settings.title')}
+      </h1>
     </div>
+
+    {/* Placeholder for Team Settings Navigation */}
+
+    <TeamKeyList client:load teamId={teamId} keys={keys} i18nData={i18nData} canManage={true} />
+  </div>
 </Layout>
