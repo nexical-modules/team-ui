@@ -1,0 +1,24 @@
+---
+export const prerender = false;
+import { db } from '@/lib/core/db';
+import { PageGuard } from '@/lib/ui/page-guard';
+
+const guard = await PageGuard.protect(Astro, 'member');
+if (guard) return guard;
+
+const user = Astro.locals.navData?.context?.user;
+
+// Find first team the user is a member of
+const firstMembership = await db.teamMember.findFirst({
+  where: { userId: user?.id as string },
+  select: { teamId: true },
+});
+
+if (firstMembership) {
+  return Astro.redirect(`/teams/${firstMembership.teamId}`);
+}
+
+// If no team, could redirect to onboarding or a "no teams" page
+// For now, redirect home with an error
+return Astro.redirect('/?error=no_teams');
+---
